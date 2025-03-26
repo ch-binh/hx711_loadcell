@@ -1,0 +1,861 @@
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"hx711.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../../../src/hx711.c"
+  18              		.section	.text.hx711_set_gain,"ax",%progbits
+  19              		.align	1
+  20              		.global	hx711_set_gain
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	hx711_set_gain:
+  26              	.LVL0:
+  27              	.LFB1:
+   1:../../../src/hx711.c **** #include "hx711.h"
+   2:../../../src/hx711.c **** 
+   3:../../../src/hx711.c **** static hx711_calib_val_t _calib_val = {
+   4:../../../src/hx711.c ****     .gain = HX711_GAIN_128,
+   5:../../../src/hx711.c ****     .sampling_rate = HX711_SP_10HZ,
+   6:../../../src/hx711.c ****     .base_weight = 0.0,
+   7:../../../src/hx711.c ****     .ref_weight = 188.0,
+   8:../../../src/hx711.c ****     .ref_raw_value = 7793115,
+   9:../../../src/hx711.c **** 
+  10:../../../src/hx711.c **** };
+  11:../../../src/hx711.c **** /*=========================SETUP====================*/
+  12:../../../src/hx711.c **** //
+  13:../../../src/hx711.c **** errno_t hx711_init(hx711_gain_e gain, bool set_base,
+  14:../../../src/hx711.c ****                    float base_weight, uint32_t base_raw_value)
+  15:../../../src/hx711.c **** {
+  16:../../../src/hx711.c ****     errno_t err;
+  17:../../../src/hx711.c ****     hx711_set_gain(gain);
+  18:../../../src/hx711.c **** 
+  19:../../../src/hx711.c ****     err = hx711_tare();
+  20:../../../src/hx711.c ****     if (err == HX711_FAIL)
+  21:../../../src/hx711.c ****         return err;
+  22:../../../src/hx711.c **** 
+  23:../../../src/hx711.c ****     if (set_base)
+  24:../../../src/hx711.c ****     {
+  25:../../../src/hx711.c ****         _calib_val.base_weight = base_weight;
+  26:../../../src/hx711.c ****         _calib_val.base_raw_value = base_raw_value;
+  27:../../../src/hx711.c ****     }
+  28:../../../src/hx711.c **** 
+  29:../../../src/hx711.c ****     _calib_val.coef = (float)_calib_val.ref_weight /
+  30:../../../src/hx711.c ****                       (int)(_calib_val.ref_raw_value - _calib_val.base_raw_value);
+  31:../../../src/hx711.c **** 
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 2
+
+
+  32:../../../src/hx711.c ****     _calib_val.offset = _calib_val.base_weight -
+  33:../../../src/hx711.c ****                         _calib_val.coef * _calib_val.base_raw_value;
+  34:../../../src/hx711.c **** 
+  35:../../../src/hx711.c ****     return HX711_SUCCESS;
+  36:../../../src/hx711.c **** }
+  37:../../../src/hx711.c **** 
+  38:../../../src/hx711.c **** errno_t hx711_set_gain(hx711_gain_e gain)
+  39:../../../src/hx711.c **** {
+  28              		.loc 1 39 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  40:../../../src/hx711.c ****     _calib_val.gain = gain;
+  33              		.loc 1 40 5 view .LVU1
+  34              		.loc 1 40 21 is_stmt 0 view .LVU2
+  35 0000 014B     		ldr	r3, .L2
+  36 0002 1870     		strb	r0, [r3]
+  41:../../../src/hx711.c ****     return HX711_SUCCESS;
+  37              		.loc 1 41 5 is_stmt 1 view .LVU3
+  42:../../../src/hx711.c **** }
+  38              		.loc 1 42 1 is_stmt 0 view .LVU4
+  39 0004 0120     		movs	r0, #1
+  40              	.LVL1:
+  41              		.loc 1 42 1 view .LVU5
+  42 0006 7047     		bx	lr
+  43              	.L3:
+  44              		.align	2
+  45              	.L2:
+  46 0008 00000000 		.word	_calib_val
+  47              		.cfi_endproc
+  48              	.LFE1:
+  50              		.section	.text.hx711_get_data_raw,"ax",%progbits
+  51              		.align	1
+  52              		.global	hx711_get_data_raw
+  53              		.syntax unified
+  54              		.thumb
+  55              		.thumb_func
+  57              	hx711_get_data_raw:
+  58              	.LFB4:
+  43:../../../src/hx711.c **** 
+  44:../../../src/hx711.c **** // calibrate function
+  45:../../../src/hx711.c **** errno_t hx711_tare(void)
+  46:../../../src/hx711.c **** {
+  47:../../../src/hx711.c ****     uint32_t value = 0;
+  48:../../../src/hx711.c ****     for (int i = 0; i < NUMBER_OF_RETRY; i++)
+  49:../../../src/hx711.c ****     {
+  50:../../../src/hx711.c ****         value = hx711_get_data_raw();
+  51:../../../src/hx711.c ****         if (value)
+  52:../../../src/hx711.c ****         {
+  53:../../../src/hx711.c ****             _calib_val.base_raw_value = value;
+  54:../../../src/hx711.c ****             return HX711_SUCCESS;
+  55:../../../src/hx711.c ****         }
+  56:../../../src/hx711.c ****         hx711_us_delay(10000);
+  57:../../../src/hx711.c ****     }
+  58:../../../src/hx711.c ****     return HX711_TIMEOUT;
+  59:../../../src/hx711.c **** }
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 3
+
+
+  60:../../../src/hx711.c **** 
+  61:../../../src/hx711.c **** errno_t hx711_set_ref_weight(uint32_t weight, uint32_t raw_value)
+  62:../../../src/hx711.c **** {
+  63:../../../src/hx711.c ****     _calib_val.ref_weight = weight;
+  64:../../../src/hx711.c **** 
+  65:../../../src/hx711.c ****     if (raw_value)
+  66:../../../src/hx711.c ****     {
+  67:../../../src/hx711.c ****         _calib_val.ref_raw_value = raw_value;
+  68:../../../src/hx711.c ****         return HX711_SUCCESS;
+  69:../../../src/hx711.c ****     }
+  70:../../../src/hx711.c **** 
+  71:../../../src/hx711.c ****     // if raw_value not specified, get it from HX711
+  72:../../../src/hx711.c ****     uint32_t value = 0;
+  73:../../../src/hx711.c ****     for (int i = 0; i < NUMBER_OF_RETRY; i++)
+  74:../../../src/hx711.c ****     {
+  75:../../../src/hx711.c ****         value = hx711_get_data_raw();
+  76:../../../src/hx711.c ****         if (value)
+  77:../../../src/hx711.c ****         {
+  78:../../../src/hx711.c ****             _calib_val.ref_raw_value = value;
+  79:../../../src/hx711.c ****             return HX711_SUCCESS;
+  80:../../../src/hx711.c ****         }
+  81:../../../src/hx711.c ****         hx711_us_delay(10000);
+  82:../../../src/hx711.c ****     }
+  83:../../../src/hx711.c ****     return HX711_TIMEOUT;
+  84:../../../src/hx711.c **** }
+  85:../../../src/hx711.c **** 
+  86:../../../src/hx711.c **** /*=======================================================*/
+  87:../../../src/hx711.c **** 
+  88:../../../src/hx711.c **** uint32_t hx711_get_data_raw(void)
+  89:../../../src/hx711.c **** {
+  59              		.loc 1 89 1 is_stmt 1 view -0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63 0000 70B5     		push	{r4, r5, r6, lr}
+  64              	.LCFI0:
+  65              		.cfi_def_cfa_offset 16
+  66              		.cfi_offset 4, -16
+  67              		.cfi_offset 5, -12
+  68              		.cfi_offset 6, -8
+  69              		.cfi_offset 14, -4
+  90:../../../src/hx711.c ****     // check if data is ready or not
+  91:../../../src/hx711.c ****     if (hx711_read_dat())
+  70              		.loc 1 91 5 view .LVU7
+  71              		.loc 1 91 9 is_stmt 0 view .LVU8
+  72 0002 FFF7FEFF 		bl	hx711_read_dat
+  73              	.LVL2:
+  74              		.loc 1 91 8 discriminator 1 view .LVU9
+  75 0006 80BB     		cbnz	r0, .L11
+  76 0008 0646     		mov	r6, r0
+  77              	.LBB2:
+  92:../../../src/hx711.c ****         return 0;
+  93:../../../src/hx711.c **** 
+  94:../../../src/hx711.c ****     uint32_t data = 0;
+  95:../../../src/hx711.c ****     // read data
+  96:../../../src/hx711.c ****     for (int8_t len = 0; len < 24; len++)
+  78              		.loc 1 96 17 view .LVU10
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 4
+
+
+  79 000a 0024     		movs	r4, #0
+  80              	.LBE2:
+  94:../../../src/hx711.c ****     // read data
+  81              		.loc 1 94 14 view .LVU11
+  82 000c 2546     		mov	r5, r4
+  83 000e 01E0     		b	.L6
+  84              	.LVL3:
+  85              	.L7:
+  86              	.LBB3:
+  87              		.loc 1 96 39 is_stmt 1 discriminator 2 view .LVU12
+  88 0010 0134     		adds	r4, r4, #1
+  89              	.LVL4:
+  90              		.loc 1 96 39 is_stmt 0 discriminator 2 view .LVU13
+  91 0012 64B2     		sxtb	r4, r4
+  92              	.LVL5:
+  93              	.L6:
+  94              		.loc 1 96 30 is_stmt 1 discriminator 1 view .LVU14
+  95 0014 172C     		cmp	r4, #23
+  96 0016 12DC     		bgt	.L13
+  97:../../../src/hx711.c ****     {
+  98:../../../src/hx711.c ****         hx711_write_clk(1);
+  97              		.loc 1 98 9 view .LVU15
+  98 0018 0120     		movs	r0, #1
+  99 001a FFF7FEFF 		bl	hx711_write_clk
+ 100              	.LVL6:
+  99:../../../src/hx711.c ****         hx711_us_delay(10);
+ 101              		.loc 1 99 9 view .LVU16
+ 102 001e 0A20     		movs	r0, #10
+ 103 0020 FFF7FEFF 		bl	hx711_us_delay
+ 104              	.LVL7:
+ 100:../../../src/hx711.c ****         data = data << 1;
+ 105              		.loc 1 100 9 view .LVU17
+ 106              		.loc 1 100 14 is_stmt 0 view .LVU18
+ 107 0024 6D00     		lsls	r5, r5, #1
+ 108              	.LVL8:
+ 101:../../../src/hx711.c ****         hx711_write_clk(0);
+ 109              		.loc 1 101 9 is_stmt 1 view .LVU19
+ 110 0026 0020     		movs	r0, #0
+ 111 0028 FFF7FEFF 		bl	hx711_write_clk
+ 112              	.LVL9:
+ 102:../../../src/hx711.c ****         hx711_us_delay(10);
+ 113              		.loc 1 102 9 view .LVU20
+ 114 002c 0A20     		movs	r0, #10
+ 115 002e FFF7FEFF 		bl	hx711_us_delay
+ 116              	.LVL10:
+ 103:../../../src/hx711.c ****         if (hx711_read_dat())
+ 117              		.loc 1 103 9 view .LVU21
+ 118              		.loc 1 103 13 is_stmt 0 view .LVU22
+ 119 0032 FFF7FEFF 		bl	hx711_read_dat
+ 120              	.LVL11:
+ 121              		.loc 1 103 12 discriminator 1 view .LVU23
+ 122 0036 0028     		cmp	r0, #0
+ 123 0038 EAD0     		beq	.L7
+ 104:../../../src/hx711.c ****             data++;
+ 124              		.loc 1 104 13 is_stmt 1 view .LVU24
+ 125              		.loc 1 104 17 is_stmt 0 view .LVU25
+ 126 003a 0135     		adds	r5, r5, #1
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 5
+
+
+ 127              	.LVL12:
+ 128              		.loc 1 104 17 view .LVU26
+ 129 003c E8E7     		b	.L7
+ 130              	.L13:
+ 131              		.loc 1 104 17 view .LVU27
+ 132              	.LBE3:
+ 105:../../../src/hx711.c ****     }
+ 106:../../../src/hx711.c ****     data = data ^ 0x800000;
+ 133              		.loc 1 106 5 is_stmt 1 view .LVU28
+ 134              		.loc 1 106 10 is_stmt 0 view .LVU29
+ 135 003e 85F40005 		eor	r5, r5, #8388608
+ 136              	.LVL13:
+ 107:../../../src/hx711.c ****     // set gain
+ 108:../../../src/hx711.c ****     for (int i = 0; i < _calib_val.gain; i++)
+ 137              		.loc 1 108 5 is_stmt 1 view .LVU30
+ 138              	.LBB4:
+ 139              		.loc 1 108 10 view .LVU31
+ 140              		.loc 1 108 5 is_stmt 0 view .LVU32
+ 141 0042 0CE0     		b	.L9
+ 142              	.LVL14:
+ 143              	.L10:
+ 109:../../../src/hx711.c ****     {
+ 110:../../../src/hx711.c ****         hx711_write_clk(1);
+ 144              		.loc 1 110 9 is_stmt 1 view .LVU33
+ 145 0044 0120     		movs	r0, #1
+ 146 0046 FFF7FEFF 		bl	hx711_write_clk
+ 147              	.LVL15:
+ 111:../../../src/hx711.c ****         hx711_us_delay(10);
+ 148              		.loc 1 111 9 view .LVU34
+ 149 004a 0A20     		movs	r0, #10
+ 150 004c FFF7FEFF 		bl	hx711_us_delay
+ 151              	.LVL16:
+ 112:../../../src/hx711.c ****         hx711_write_clk(0);
+ 152              		.loc 1 112 9 view .LVU35
+ 153 0050 0020     		movs	r0, #0
+ 154 0052 FFF7FEFF 		bl	hx711_write_clk
+ 155              	.LVL17:
+ 113:../../../src/hx711.c ****         hx711_us_delay(10);
+ 156              		.loc 1 113 9 view .LVU36
+ 157 0056 0A20     		movs	r0, #10
+ 158 0058 FFF7FEFF 		bl	hx711_us_delay
+ 159              	.LVL18:
+ 108:../../../src/hx711.c ****     {
+ 160              		.loc 1 108 43 discriminator 3 view .LVU37
+ 161 005c 0136     		adds	r6, r6, #1
+ 162              	.LVL19:
+ 163              	.L9:
+ 108:../../../src/hx711.c ****     {
+ 164              		.loc 1 108 23 discriminator 1 view .LVU38
+ 108:../../../src/hx711.c ****     {
+ 165              		.loc 1 108 35 is_stmt 0 discriminator 1 view .LVU39
+ 166 005e 044B     		ldr	r3, .L14
+ 167 0060 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 108:../../../src/hx711.c ****     {
+ 168              		.loc 1 108 23 discriminator 1 view .LVU40
+ 169 0062 B342     		cmp	r3, r6
+ 170 0064 EEDC     		bgt	.L10
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 6
+
+
+ 171              	.LVL20:
+ 172              	.L4:
+ 108:../../../src/hx711.c ****     {
+ 173              		.loc 1 108 23 discriminator 1 view .LVU41
+ 174              	.LBE4:
+ 114:../../../src/hx711.c ****     }
+ 115:../../../src/hx711.c ****     return data;
+ 116:../../../src/hx711.c **** }
+ 175              		.loc 1 116 1 view .LVU42
+ 176 0066 2846     		mov	r0, r5
+ 177 0068 70BD     		pop	{r4, r5, r6, pc}
+ 178              	.L11:
+  92:../../../src/hx711.c **** 
+ 179              		.loc 1 92 16 view .LVU43
+ 180 006a 0025     		movs	r5, #0
+ 181 006c FBE7     		b	.L4
+ 182              	.L15:
+ 183 006e 00BF     		.align	2
+ 184              	.L14:
+ 185 0070 00000000 		.word	_calib_val
+ 186              		.cfi_endproc
+ 187              	.LFE4:
+ 189              		.section	.text.hx711_tare,"ax",%progbits
+ 190              		.align	1
+ 191              		.global	hx711_tare
+ 192              		.syntax unified
+ 193              		.thumb
+ 194              		.thumb_func
+ 196              	hx711_tare:
+ 197              	.LFB2:
+  46:../../../src/hx711.c ****     uint32_t value = 0;
+ 198              		.loc 1 46 1 is_stmt 1 view -0
+ 199              		.cfi_startproc
+ 200              		@ args = 0, pretend = 0, frame = 0
+ 201              		@ frame_needed = 0, uses_anonymous_args = 0
+ 202 0000 10B5     		push	{r4, lr}
+ 203              	.LCFI1:
+ 204              		.cfi_def_cfa_offset 8
+ 205              		.cfi_offset 4, -8
+ 206              		.cfi_offset 14, -4
+  47:../../../src/hx711.c ****     for (int i = 0; i < NUMBER_OF_RETRY; i++)
+ 207              		.loc 1 47 5 view .LVU45
+ 208              	.LVL21:
+  48:../../../src/hx711.c ****     {
+ 209              		.loc 1 48 5 view .LVU46
+ 210              	.LBB5:
+  48:../../../src/hx711.c ****     {
+ 211              		.loc 1 48 10 view .LVU47
+  48:../../../src/hx711.c ****     {
+ 212              		.loc 1 48 14 is_stmt 0 view .LVU48
+ 213 0002 0024     		movs	r4, #0
+ 214              	.LVL22:
+ 215              	.L17:
+  48:../../../src/hx711.c ****     {
+ 216              		.loc 1 48 23 is_stmt 1 discriminator 1 view .LVU49
+ 217 0004 632C     		cmp	r4, #99
+ 218 0006 0CDC     		bgt	.L22
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 7
+
+
+  50:../../../src/hx711.c ****         if (value)
+ 219              		.loc 1 50 9 view .LVU50
+  50:../../../src/hx711.c ****         if (value)
+ 220              		.loc 1 50 17 is_stmt 0 view .LVU51
+ 221 0008 FFF7FEFF 		bl	hx711_get_data_raw
+ 222              	.LVL23:
+  51:../../../src/hx711.c ****         {
+ 223              		.loc 1 51 9 is_stmt 1 view .LVU52
+  51:../../../src/hx711.c ****         {
+ 224              		.loc 1 51 12 is_stmt 0 view .LVU53
+ 225 000c 28B9     		cbnz	r0, .L23
+  56:../../../src/hx711.c ****     }
+ 226              		.loc 1 56 9 is_stmt 1 view .LVU54
+ 227 000e 42F21070 		movw	r0, #10000
+ 228              	.LVL24:
+  56:../../../src/hx711.c ****     }
+ 229              		.loc 1 56 9 is_stmt 0 view .LVU55
+ 230 0012 FFF7FEFF 		bl	hx711_us_delay
+ 231              	.LVL25:
+  48:../../../src/hx711.c ****     {
+ 232              		.loc 1 48 43 is_stmt 1 discriminator 2 view .LVU56
+ 233 0016 0134     		adds	r4, r4, #1
+ 234              	.LVL26:
+  48:../../../src/hx711.c ****     {
+ 235              		.loc 1 48 43 is_stmt 0 discriminator 2 view .LVU57
+ 236 0018 F4E7     		b	.L17
+ 237              	.LVL27:
+ 238              	.L23:
+  53:../../../src/hx711.c ****             return HX711_SUCCESS;
+ 239              		.loc 1 53 13 is_stmt 1 view .LVU58
+  53:../../../src/hx711.c ****             return HX711_SUCCESS;
+ 240              		.loc 1 53 39 is_stmt 0 view .LVU59
+ 241 001a 034A     		ldr	r2, .L24
+ 242 001c 9060     		str	r0, [r2, #8]
+  54:../../../src/hx711.c ****         }
+ 243              		.loc 1 54 13 is_stmt 1 view .LVU60
+  54:../../../src/hx711.c ****         }
+ 244              		.loc 1 54 20 is_stmt 0 view .LVU61
+ 245 001e 0120     		movs	r0, #1
+ 246              	.LVL28:
+ 247              	.L19:
+  54:../../../src/hx711.c ****         }
+ 248              		.loc 1 54 20 view .LVU62
+ 249              	.LBE5:
+  59:../../../src/hx711.c **** 
+ 250              		.loc 1 59 1 view .LVU63
+ 251 0020 10BD     		pop	{r4, pc}
+ 252              	.LVL29:
+ 253              	.L22:
+  58:../../../src/hx711.c **** }
+ 254              		.loc 1 58 12 view .LVU64
+ 255 0022 0220     		movs	r0, #2
+ 256 0024 FCE7     		b	.L19
+ 257              	.L25:
+ 258 0026 00BF     		.align	2
+ 259              	.L24:
+ 260 0028 00000000 		.word	_calib_val
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 8
+
+
+ 261              		.cfi_endproc
+ 262              	.LFE2:
+ 264              		.global	__aeabi_i2f
+ 265              		.global	__aeabi_fdiv
+ 266              		.global	__aeabi_ui2f
+ 267              		.global	__aeabi_fmul
+ 268              		.global	__aeabi_fsub
+ 269              		.section	.text.hx711_init,"ax",%progbits
+ 270              		.align	1
+ 271              		.global	hx711_init
+ 272              		.syntax unified
+ 273              		.thumb
+ 274              		.thumb_func
+ 276              	hx711_init:
+ 277              	.LVL30:
+ 278              	.LFB0:
+  15:../../../src/hx711.c ****     errno_t err;
+ 279              		.loc 1 15 1 is_stmt 1 view -0
+ 280              		.cfi_startproc
+ 281              		@ args = 0, pretend = 0, frame = 0
+ 282              		@ frame_needed = 0, uses_anonymous_args = 0
+  15:../../../src/hx711.c ****     errno_t err;
+ 283              		.loc 1 15 1 is_stmt 0 view .LVU66
+ 284 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 285              	.LCFI2:
+ 286              		.cfi_def_cfa_offset 24
+ 287              		.cfi_offset 3, -24
+ 288              		.cfi_offset 4, -20
+ 289              		.cfi_offset 5, -16
+ 290              		.cfi_offset 6, -12
+ 291              		.cfi_offset 7, -8
+ 292              		.cfi_offset 14, -4
+ 293 0002 0C46     		mov	r4, r1
+ 294 0004 1646     		mov	r6, r2
+ 295 0006 1D46     		mov	r5, r3
+  16:../../../src/hx711.c ****     hx711_set_gain(gain);
+ 296              		.loc 1 16 5 is_stmt 1 view .LVU67
+  17:../../../src/hx711.c **** 
+ 297              		.loc 1 17 5 view .LVU68
+ 298 0008 FFF7FEFF 		bl	hx711_set_gain
+ 299              	.LVL31:
+  19:../../../src/hx711.c ****     if (err == HX711_FAIL)
+ 300              		.loc 1 19 5 view .LVU69
+  19:../../../src/hx711.c ****     if (err == HX711_FAIL)
+ 301              		.loc 1 19 11 is_stmt 0 view .LVU70
+ 302 000c FFF7FEFF 		bl	hx711_tare
+ 303              	.LVL32:
+  20:../../../src/hx711.c ****         return err;
+ 304              		.loc 1 20 5 is_stmt 1 view .LVU71
+  20:../../../src/hx711.c ****         return err;
+ 305              		.loc 1 20 8 is_stmt 0 view .LVU72
+ 306 0010 E8B1     		cbz	r0, .L27
+  23:../../../src/hx711.c ****     {
+ 307              		.loc 1 23 5 is_stmt 1 view .LVU73
+  23:../../../src/hx711.c ****     {
+ 308              		.loc 1 23 8 is_stmt 0 view .LVU74
+ 309 0012 14B1     		cbz	r4, .L28
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 9
+
+
+  25:../../../src/hx711.c ****         _calib_val.base_raw_value = base_raw_value;
+ 310              		.loc 1 25 9 is_stmt 1 view .LVU75
+  25:../../../src/hx711.c ****         _calib_val.base_raw_value = base_raw_value;
+ 311              		.loc 1 25 32 is_stmt 0 view .LVU76
+ 312 0014 0E4B     		ldr	r3, .L30
+ 313 0016 5E60     		str	r6, [r3, #4]	@ float
+  26:../../../src/hx711.c ****     }
+ 314              		.loc 1 26 9 is_stmt 1 view .LVU77
+  26:../../../src/hx711.c ****     }
+ 315              		.loc 1 26 35 is_stmt 0 view .LVU78
+ 316 0018 9D60     		str	r5, [r3, #8]
+ 317              	.L28:
+  29:../../../src/hx711.c ****                       (int)(_calib_val.ref_raw_value - _calib_val.base_raw_value);
+ 318              		.loc 1 29 5 is_stmt 1 view .LVU79
+  29:../../../src/hx711.c ****                       (int)(_calib_val.ref_raw_value - _calib_val.base_raw_value);
+ 319              		.loc 1 29 40 is_stmt 0 view .LVU80
+ 320 001a 0D4C     		ldr	r4, .L30
+ 321              	.LVL33:
+  29:../../../src/hx711.c ****                       (int)(_calib_val.ref_raw_value - _calib_val.base_raw_value);
+ 322              		.loc 1 29 40 view .LVU81
+ 323 001c E568     		ldr	r5, [r4, #12]	@ float
+ 324              	.LVL34:
+  30:../../../src/hx711.c **** 
+ 325              		.loc 1 30 39 view .LVU82
+ 326 001e 2069     		ldr	r0, [r4, #16]
+  30:../../../src/hx711.c **** 
+ 327              		.loc 1 30 66 view .LVU83
+ 328 0020 A668     		ldr	r6, [r4, #8]
+ 329              	.LVL35:
+  29:../../../src/hx711.c ****                       (int)(_calib_val.ref_raw_value - _calib_val.base_raw_value);
+ 330              		.loc 1 29 52 view .LVU84
+ 331 0022 801B     		subs	r0, r0, r6
+ 332 0024 FFF7FEFF 		bl	__aeabi_i2f
+ 333              	.LVL36:
+ 334 0028 0146     		mov	r1, r0
+ 335 002a 2846     		mov	r0, r5
+ 336 002c FFF7FEFF 		bl	__aeabi_fdiv
+ 337              	.LVL37:
+ 338 0030 0546     		mov	r5, r0
+  29:../../../src/hx711.c ****                       (int)(_calib_val.ref_raw_value - _calib_val.base_raw_value);
+ 339              		.loc 1 29 21 view .LVU85
+ 340 0032 6061     		str	r0, [r4, #20]	@ float
+  32:../../../src/hx711.c ****                         _calib_val.coef * _calib_val.base_raw_value;
+ 341              		.loc 1 32 5 is_stmt 1 view .LVU86
+  32:../../../src/hx711.c ****                         _calib_val.coef * _calib_val.base_raw_value;
+ 342              		.loc 1 32 35 is_stmt 0 view .LVU87
+ 343 0034 6768     		ldr	r7, [r4, #4]	@ float
+  33:../../../src/hx711.c **** 
+ 344              		.loc 1 33 41 view .LVU88
+ 345 0036 3046     		mov	r0, r6
+ 346 0038 FFF7FEFF 		bl	__aeabi_ui2f
+ 347              	.LVL38:
+ 348 003c 2946     		mov	r1, r5
+ 349 003e FFF7FEFF 		bl	__aeabi_fmul
+ 350              	.LVL39:
+ 351 0042 0146     		mov	r1, r0
+  32:../../../src/hx711.c ****                         _calib_val.coef * _calib_val.base_raw_value;
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 10
+
+
+ 352              		.loc 1 32 48 view .LVU89
+ 353 0044 3846     		mov	r0, r7
+ 354 0046 FFF7FEFF 		bl	__aeabi_fsub
+ 355              	.LVL40:
+  32:../../../src/hx711.c ****                         _calib_val.coef * _calib_val.base_raw_value;
+ 356              		.loc 1 32 23 view .LVU90
+ 357 004a A061     		str	r0, [r4, #24]	@ float
+  35:../../../src/hx711.c **** }
+ 358              		.loc 1 35 5 is_stmt 1 view .LVU91
+  35:../../../src/hx711.c **** }
+ 359              		.loc 1 35 12 is_stmt 0 view .LVU92
+ 360 004c 0120     		movs	r0, #1
+ 361              	.L27:
+  36:../../../src/hx711.c **** 
+ 362              		.loc 1 36 1 view .LVU93
+ 363 004e F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 364              	.L31:
+ 365              		.align	2
+ 366              	.L30:
+ 367 0050 00000000 		.word	_calib_val
+ 368              		.cfi_endproc
+ 369              	.LFE0:
+ 371              		.section	.text.hx711_set_ref_weight,"ax",%progbits
+ 372              		.align	1
+ 373              		.global	hx711_set_ref_weight
+ 374              		.syntax unified
+ 375              		.thumb
+ 376              		.thumb_func
+ 378              	hx711_set_ref_weight:
+ 379              	.LVL41:
+ 380              	.LFB3:
+  62:../../../src/hx711.c ****     _calib_val.ref_weight = weight;
+ 381              		.loc 1 62 1 is_stmt 1 view -0
+ 382              		.cfi_startproc
+ 383              		@ args = 0, pretend = 0, frame = 0
+ 384              		@ frame_needed = 0, uses_anonymous_args = 0
+  62:../../../src/hx711.c ****     _calib_val.ref_weight = weight;
+ 385              		.loc 1 62 1 is_stmt 0 view .LVU95
+ 386 0000 10B5     		push	{r4, lr}
+ 387              	.LCFI3:
+ 388              		.cfi_def_cfa_offset 8
+ 389              		.cfi_offset 4, -8
+ 390              		.cfi_offset 14, -4
+ 391 0002 0C46     		mov	r4, r1
+  63:../../../src/hx711.c **** 
+ 392              		.loc 1 63 5 is_stmt 1 view .LVU96
+  63:../../../src/hx711.c **** 
+ 393              		.loc 1 63 27 is_stmt 0 view .LVU97
+ 394 0004 FFF7FEFF 		bl	__aeabi_ui2f
+ 395              	.LVL42:
+  63:../../../src/hx711.c **** 
+ 396              		.loc 1 63 27 view .LVU98
+ 397 0008 0B4B     		ldr	r3, .L42
+ 398 000a D860     		str	r0, [r3, #12]	@ float
+  65:../../../src/hx711.c ****     {
+ 399              		.loc 1 65 5 is_stmt 1 view .LVU99
+  65:../../../src/hx711.c ****     {
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 11
+
+
+ 400              		.loc 1 65 8 is_stmt 0 view .LVU100
+ 401 000c 5CB9     		cbnz	r4, .L39
+ 402              	.LBB6:
+  73:../../../src/hx711.c ****     {
+ 403              		.loc 1 73 14 view .LVU101
+ 404 000e 0024     		movs	r4, #0
+ 405              	.LVL43:
+ 406              	.L33:
+  73:../../../src/hx711.c ****     {
+ 407              		.loc 1 73 23 is_stmt 1 discriminator 1 view .LVU102
+ 408 0010 632C     		cmp	r4, #99
+ 409 0012 0FDC     		bgt	.L40
+  75:../../../src/hx711.c ****         if (value)
+ 410              		.loc 1 75 9 view .LVU103
+  75:../../../src/hx711.c ****         if (value)
+ 411              		.loc 1 75 17 is_stmt 0 view .LVU104
+ 412 0014 FFF7FEFF 		bl	hx711_get_data_raw
+ 413              	.LVL44:
+  76:../../../src/hx711.c ****         {
+ 414              		.loc 1 76 9 is_stmt 1 view .LVU105
+  76:../../../src/hx711.c ****         {
+ 415              		.loc 1 76 12 is_stmt 0 view .LVU106
+ 416 0018 40B9     		cbnz	r0, .L41
+  81:../../../src/hx711.c ****     }
+ 417              		.loc 1 81 9 is_stmt 1 view .LVU107
+ 418 001a 42F21070 		movw	r0, #10000
+ 419              	.LVL45:
+  81:../../../src/hx711.c ****     }
+ 420              		.loc 1 81 9 is_stmt 0 view .LVU108
+ 421 001e FFF7FEFF 		bl	hx711_us_delay
+ 422              	.LVL46:
+  73:../../../src/hx711.c ****     {
+ 423              		.loc 1 73 43 is_stmt 1 discriminator 2 view .LVU109
+ 424 0022 0134     		adds	r4, r4, #1
+ 425              	.LVL47:
+  73:../../../src/hx711.c ****     {
+ 426              		.loc 1 73 43 is_stmt 0 discriminator 2 view .LVU110
+ 427 0024 F4E7     		b	.L33
+ 428              	.LVL48:
+ 429              	.L39:
+  73:../../../src/hx711.c ****     {
+ 430              		.loc 1 73 43 discriminator 2 view .LVU111
+ 431              	.LBE6:
+  67:../../../src/hx711.c ****         return HX711_SUCCESS;
+ 432              		.loc 1 67 9 is_stmt 1 view .LVU112
+  67:../../../src/hx711.c ****         return HX711_SUCCESS;
+ 433              		.loc 1 67 34 is_stmt 0 view .LVU113
+ 434 0026 1C61     		str	r4, [r3, #16]
+  68:../../../src/hx711.c ****     }
+ 435              		.loc 1 68 9 is_stmt 1 view .LVU114
+  68:../../../src/hx711.c ****     }
+ 436              		.loc 1 68 16 is_stmt 0 view .LVU115
+ 437 0028 0120     		movs	r0, #1
+ 438 002a 02E0     		b	.L34
+ 439              	.LVL49:
+ 440              	.L41:
+ 441              	.LBB7:
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 12
+
+
+  78:../../../src/hx711.c ****             return HX711_SUCCESS;
+ 442              		.loc 1 78 13 is_stmt 1 view .LVU116
+  78:../../../src/hx711.c ****             return HX711_SUCCESS;
+ 443              		.loc 1 78 38 is_stmt 0 view .LVU117
+ 444 002c 024A     		ldr	r2, .L42
+ 445 002e 1061     		str	r0, [r2, #16]
+  79:../../../src/hx711.c ****         }
+ 446              		.loc 1 79 13 is_stmt 1 view .LVU118
+  79:../../../src/hx711.c ****         }
+ 447              		.loc 1 79 20 is_stmt 0 view .LVU119
+ 448 0030 0120     		movs	r0, #1
+ 449              	.LVL50:
+ 450              	.L34:
+  79:../../../src/hx711.c ****         }
+ 451              		.loc 1 79 20 view .LVU120
+ 452              	.LBE7:
+  84:../../../src/hx711.c **** 
+ 453              		.loc 1 84 1 view .LVU121
+ 454 0032 10BD     		pop	{r4, pc}
+ 455              	.LVL51:
+ 456              	.L40:
+  83:../../../src/hx711.c **** }
+ 457              		.loc 1 83 12 view .LVU122
+ 458 0034 0220     		movs	r0, #2
+ 459 0036 FCE7     		b	.L34
+ 460              	.L43:
+ 461              		.align	2
+ 462              	.L42:
+ 463 0038 00000000 		.word	_calib_val
+ 464              		.cfi_endproc
+ 465              	.LFE3:
+ 467              		.global	__aeabi_fadd
+ 468              		.section	.text.hx711_get_weight,"ax",%progbits
+ 469              		.align	1
+ 470              		.global	hx711_get_weight
+ 471              		.syntax unified
+ 472              		.thumb
+ 473              		.thumb_func
+ 475              	hx711_get_weight:
+ 476              	.LFB5:
+ 117:../../../src/hx711.c **** 
+ 118:../../../src/hx711.c **** float hx711_get_weight(void)
+ 119:../../../src/hx711.c **** {
+ 477              		.loc 1 119 1 is_stmt 1 view -0
+ 478              		.cfi_startproc
+ 479              		@ args = 0, pretend = 0, frame = 0
+ 480              		@ frame_needed = 0, uses_anonymous_args = 0
+ 481 0000 38B5     		push	{r3, r4, r5, lr}
+ 482              	.LCFI4:
+ 483              		.cfi_def_cfa_offset 16
+ 484              		.cfi_offset 3, -16
+ 485              		.cfi_offset 4, -12
+ 486              		.cfi_offset 5, -8
+ 487              		.cfi_offset 14, -4
+ 120:../../../src/hx711.c ****     uint32_t data = hx711_get_data_raw();
+ 488              		.loc 1 120 5 view .LVU124
+ 489              		.loc 1 120 21 is_stmt 0 view .LVU125
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 13
+
+
+ 490 0002 FFF7FEFF 		bl	hx711_get_data_raw
+ 491              	.LVL52:
+ 121:../../../src/hx711.c ****     if (!data)
+ 492              		.loc 1 121 5 is_stmt 1 view .LVU126
+ 493              		.loc 1 121 8 is_stmt 0 view .LVU127
+ 494 0006 58B1     		cbz	r0, .L46
+ 122:../../../src/hx711.c ****         return 0;
+ 123:../../../src/hx711.c ****     return (_calib_val.coef * (float)data + _calib_val.offset);
+ 495              		.loc 1 123 5 is_stmt 1 view .LVU128
+ 496              		.loc 1 123 23 is_stmt 0 view .LVU129
+ 497 0008 064C     		ldr	r4, .L48
+ 498 000a 6569     		ldr	r5, [r4, #20]	@ float
+ 499              		.loc 1 123 31 view .LVU130
+ 500 000c FFF7FEFF 		bl	__aeabi_ui2f
+ 501              	.LVL53:
+ 502              		.loc 1 123 31 view .LVU131
+ 503 0010 0146     		mov	r1, r0
+ 504              		.loc 1 123 29 view .LVU132
+ 505 0012 2846     		mov	r0, r5
+ 506 0014 FFF7FEFF 		bl	__aeabi_fmul
+ 507              	.LVL54:
+ 508              		.loc 1 123 43 view .LVU133
+ 509 0018 A169     		ldr	r1, [r4, #24]	@ float
+ 510 001a FFF7FEFF 		bl	__aeabi_fadd
+ 511              	.LVL55:
+ 512              	.L44:
+ 124:../../../src/hx711.c **** }
+ 513              		.loc 1 124 1 view .LVU134
+ 514 001e 38BD     		pop	{r3, r4, r5, pc}
+ 515              	.LVL56:
+ 516              	.L46:
+ 122:../../../src/hx711.c ****         return 0;
+ 517              		.loc 1 122 16 view .LVU135
+ 518 0020 0020     		movs	r0, #0
+ 519              	.LVL57:
+ 122:../../../src/hx711.c ****         return 0;
+ 520              		.loc 1 122 16 view .LVU136
+ 521 0022 FCE7     		b	.L44
+ 522              	.L49:
+ 523              		.align	2
+ 524              	.L48:
+ 525 0024 00000000 		.word	_calib_val
+ 526              		.cfi_endproc
+ 527              	.LFE5:
+ 529              		.section	.text.hx711_enter_power_down,"ax",%progbits
+ 530              		.align	1
+ 531              		.global	hx711_enter_power_down
+ 532              		.syntax unified
+ 533              		.thumb
+ 534              		.thumb_func
+ 536              	hx711_enter_power_down:
+ 537              	.LFB6:
+ 125:../../../src/hx711.c **** 
+ 126:../../../src/hx711.c **** /*=======================================================*/
+ 127:../../../src/hx711.c **** 
+ 128:../../../src/hx711.c **** errno_t hx711_enter_power_down(void)
+ 129:../../../src/hx711.c **** {
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 14
+
+
+ 538              		.loc 1 129 1 is_stmt 1 view -0
+ 539              		.cfi_startproc
+ 540              		@ args = 0, pretend = 0, frame = 0
+ 541              		@ frame_needed = 0, uses_anonymous_args = 0
+ 542 0000 08B5     		push	{r3, lr}
+ 543              	.LCFI5:
+ 544              		.cfi_def_cfa_offset 8
+ 545              		.cfi_offset 3, -8
+ 546              		.cfi_offset 14, -4
+ 130:../../../src/hx711.c ****     hx711_write_clk(1);
+ 547              		.loc 1 130 5 view .LVU138
+ 548 0002 0120     		movs	r0, #1
+ 549 0004 FFF7FEFF 		bl	hx711_write_clk
+ 550              	.LVL58:
+ 131:../../../src/hx711.c ****     return HX711_SUCCESS;
+ 551              		.loc 1 131 5 view .LVU139
+ 132:../../../src/hx711.c **** }
+ 552              		.loc 1 132 1 is_stmt 0 view .LVU140
+ 553 0008 0120     		movs	r0, #1
+ 554 000a 08BD     		pop	{r3, pc}
+ 555              		.cfi_endproc
+ 556              	.LFE6:
+ 558              		.section	.data._calib_val,"aw"
+ 559              		.align	2
+ 562              	_calib_val:
+ 563 0000 01       		.byte	1
+ 564 0001 00       		.byte	0
+ 565 0002 0000     		.space	2
+ 566 0004 00000000 		.word	0
+ 567 0008 00000000 		.space	4
+ 568 000c 00003C43 		.word	1128005632
+ 569 0010 DBE97600 		.word	7793115
+ 570 0014 00000000 		.space	8
+ 570      00000000 
+ 571              		.text
+ 572              	.Letext0:
+ 573              		.file 2 "C:/msys64/mingw64/arm-none-eabi/include/machine/_default_types.h"
+ 574              		.file 3 "C:/msys64/mingw64/arm-none-eabi/include/sys/_stdint.h"
+ 575              		.file 4 "../../../inc/hx711.h"
+ 576              		.file 5 "../../../inc/hx711_hw.h"
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s 			page 15
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 hx711.c
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:19     .text.hx711_set_gain:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:25     .text.hx711_set_gain:00000000 hx711_set_gain
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:46     .text.hx711_set_gain:00000008 $d
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:562    .data._calib_val:00000000 _calib_val
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:51     .text.hx711_get_data_raw:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:57     .text.hx711_get_data_raw:00000000 hx711_get_data_raw
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:185    .text.hx711_get_data_raw:00000070 $d
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:190    .text.hx711_tare:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:196    .text.hx711_tare:00000000 hx711_tare
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:260    .text.hx711_tare:00000028 $d
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:270    .text.hx711_init:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:276    .text.hx711_init:00000000 hx711_init
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:367    .text.hx711_init:00000050 $d
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:372    .text.hx711_set_ref_weight:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:378    .text.hx711_set_ref_weight:00000000 hx711_set_ref_weight
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:463    .text.hx711_set_ref_weight:00000038 $d
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:469    .text.hx711_get_weight:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:475    .text.hx711_get_weight:00000000 hx711_get_weight
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:525    .text.hx711_get_weight:00000024 $d
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:530    .text.hx711_enter_power_down:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:536    .text.hx711_enter_power_down:00000000 hx711_enter_power_down
+C:\Users\binhp\AppData\Local\Temp\cc7DdPhW.s:559    .data._calib_val:00000000 $d
+
+UNDEFINED SYMBOLS
+hx711_read_dat
+hx711_write_clk
+hx711_us_delay
+__aeabi_i2f
+__aeabi_fdiv
+__aeabi_ui2f
+__aeabi_fmul
+__aeabi_fsub
+__aeabi_fadd

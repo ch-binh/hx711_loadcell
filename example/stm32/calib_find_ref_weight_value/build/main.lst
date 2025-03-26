@@ -1,0 +1,469 @@
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Src/main.c"
+  18              		.section	.text.hx711_com_init,"ax",%progbits
+  19              		.align	1
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  24              	hx711_com_init:
+  25              	.LFB68:
+   1:Src/main.c    **** 
+   2:Src/main.c    **** #include "main.h"
+   3:Src/main.c    **** #include "hal_tim.h"
+   4:Src/main.c    **** #include "hal_usart.h"
+   5:Src/main.c    **** #include "hal_gpio.h"
+   6:Src/main.c    **** #include "hal_utils.h"
+   7:Src/main.c    **** #include "syscfg.h"
+   8:Src/main.c    **** 
+   9:Src/main.c    **** #include "hx711.h"
+  10:Src/main.c    **** 
+  11:Src/main.c    **** //================!!!!!!!!!!=================
+  12:Src/main.c    **** // Please measure your object precise weight here
+  13:Src/main.c    **** #define OBJECT_WEIGHT 188
+  14:Src/main.c    **** 
+  15:Src/main.c    **** static uint32_t object_ref_raw_value = 0;
+  16:Src/main.c    **** 
+  17:Src/main.c    **** /* Link the STM32 HAL to hx711 operations*/
+  18:Src/main.c    **** static void hx711_com_init(void)
+  19:Src/main.c    **** {
+  26              		.loc 1 19 1 view -0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 16
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 00B5     		push	{lr}
+  31              	.LCFI0:
+  32              		.cfi_def_cfa_offset 4
+  33              		.cfi_offset 14, -4
+  34 0002 85B0     		sub	sp, sp, #20
+  35              	.LCFI1:
+  36              		.cfi_def_cfa_offset 24
+  20:Src/main.c    ****   hx711_hw_ops_t hx711_hw_ops = {
+  37              		.loc 1 20 3 view .LVU1
+  38              		.loc 1 20 18 is_stmt 0 view .LVU2
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 2
+
+
+  39 0004 054A     		ldr	r2, .L3
+  40 0006 01AB     		add	r3, sp, #4
+  41 0008 07CA     		ldm	r2, {r0, r1, r2}
+  42 000a 83E80700 		stm	r3, {r0, r1, r2}
+  21:Src/main.c    ****       .write_sck = hal_gpio_hx711_write_sck,
+  22:Src/main.c    ****       .read_dat = hal_gpio_hx711_read_dat,
+  23:Src/main.c    ****       .delay_us = hal_tim_busy_wait_us,
+  24:Src/main.c    ****   };
+  25:Src/main.c    ****   hx711_set_hw_ops(&hx711_hw_ops);
+  43              		.loc 1 25 3 is_stmt 1 view .LVU3
+  44 000e 1846     		mov	r0, r3
+  45 0010 FFF7FEFF 		bl	hx711_set_hw_ops
+  46              	.LVL0:
+  26:Src/main.c    **** }
+  47              		.loc 1 26 1 is_stmt 0 view .LVU4
+  48 0014 05B0     		add	sp, sp, #20
+  49              	.LCFI2:
+  50              		.cfi_def_cfa_offset 4
+  51              		@ sp needed
+  52 0016 5DF804FB 		ldr	pc, [sp], #4
+  53              	.L4:
+  54 001a 00BF     		.align	2
+  55              	.L3:
+  56 001c 00000000 		.word	.LANCHOR0
+  57              		.cfi_endproc
+  58              	.LFE68:
+  60              		.section	.rodata.main.str1.4,"aMS",%progbits,1
+  61              		.align	2
+  62              	.LC2:
+  63 0000 5B43616C 		.ascii	"[Calib] object weight: %d(g) | ref value: %ld\012\000"
+  63      69625D20 
+  63      6F626A65 
+  63      63742077 
+  63      65696768 
+  64              		.section	.text.main,"ax",%progbits
+  65              		.align	1
+  66              		.global	main
+  67              		.syntax unified
+  68              		.thumb
+  69              		.thumb_func
+  71              	main:
+  72              	.LFB69:
+  27:Src/main.c    **** 
+  28:Src/main.c    **** int main(void)
+  29:Src/main.c    **** {
+  73              		.loc 1 29 1 is_stmt 1 view -0
+  74              		.cfi_startproc
+  75              		@ args = 0, pretend = 0, frame = 0
+  76              		@ frame_needed = 0, uses_anonymous_args = 0
+  77 0000 08B5     		push	{r3, lr}
+  78              	.LCFI3:
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 3, -8
+  81              		.cfi_offset 14, -4
+  30:Src/main.c    ****   HAL_Init();
+  82              		.loc 1 30 3 view .LVU6
+  83 0002 FFF7FEFF 		bl	HAL_Init
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 3
+
+
+  84              	.LVL1:
+  31:Src/main.c    ****   SystemClock_Config();
+  85              		.loc 1 31 3 view .LVU7
+  86 0006 FFF7FEFF 		bl	SystemClock_Config
+  87              	.LVL2:
+  32:Src/main.c    ****   MX_GPIO_Init();
+  88              		.loc 1 32 3 view .LVU8
+  89 000a FFF7FEFF 		bl	MX_GPIO_Init
+  90              	.LVL3:
+  33:Src/main.c    ****   MX_TIM2_Init();
+  91              		.loc 1 33 3 view .LVU9
+  92 000e FFF7FEFF 		bl	MX_TIM2_Init
+  93              	.LVL4:
+  34:Src/main.c    ****   HAL_TIM_Base_Start(&htim2);
+  94              		.loc 1 34 3 view .LVU10
+  95 0012 1048     		ldr	r0, .L9
+  96 0014 FFF7FEFF 		bl	HAL_TIM_Base_Start
+  97              	.LVL5:
+  35:Src/main.c    ****   MX_USART1_UART_Init();
+  98              		.loc 1 35 3 view .LVU11
+  99 0018 FFF7FEFF 		bl	MX_USART1_UART_Init
+ 100              	.LVL6:
+  36:Src/main.c    **** 
+  37:Src/main.c    ****   hx711_com_init();
+ 101              		.loc 1 37 3 view .LVU12
+ 102 001c FFF7FEFF 		bl	hx711_com_init
+ 103              	.LVL7:
+  38:Src/main.c    ****   hx711_init(HX711_GAIN_128, false, 0, 0);
+ 104              		.loc 1 38 3 view .LVU13
+ 105 0020 0023     		movs	r3, #0
+ 106 0022 0022     		movs	r2, #0
+ 107 0024 1946     		mov	r1, r3
+ 108 0026 0120     		movs	r0, #1
+ 109 0028 FFF7FEFF 		bl	hx711_init
+ 110              	.LVL8:
+  39:Src/main.c    **** 
+  40:Src/main.c    ****   uint32_t data = 0;
+ 111              		.loc 1 40 3 view .LVU14
+ 112              	.L6:
+  41:Src/main.c    ****   char data_str[20];
+ 113              		.loc 1 41 3 view .LVU15
+  42:Src/main.c    **** 
+  43:Src/main.c    ****   while (1)
+ 114              		.loc 1 43 3 view .LVU16
+  44:Src/main.c    ****   {
+  45:Src/main.c    ****     HAL_GPIO_TogglePin(BUILTIN_LED_PORT, BUILTIN_LED_PIN);
+ 115              		.loc 1 45 5 view .LVU17
+ 116 002c 4FF40051 		mov	r1, #8192
+ 117 0030 0948     		ldr	r0, .L9+4
+ 118 0032 FFF7FEFF 		bl	HAL_GPIO_TogglePin
+ 119              	.LVL9:
+  46:Src/main.c    ****     HAL_Delay(1000);
+ 120              		.loc 1 46 5 view .LVU18
+ 121 0036 4FF47A70 		mov	r0, #1000
+ 122 003a FFF7FEFF 		bl	HAL_Delay
+ 123              	.LVL10:
+  47:Src/main.c    ****     data = hx711_get_data_raw();
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 4
+
+
+ 124              		.loc 1 47 5 view .LVU19
+ 125              		.loc 1 47 12 is_stmt 0 view .LVU20
+ 126 003e FFF7FEFF 		bl	hx711_get_data_raw
+ 127              	.LVL11:
+  48:Src/main.c    ****     if (data)
+ 128              		.loc 1 48 5 is_stmt 1 view .LVU21
+ 129              		.loc 1 48 8 is_stmt 0 view .LVU22
+ 130 0042 0246     		mov	r2, r0
+ 131 0044 0028     		cmp	r0, #0
+ 132 0046 F1D0     		beq	.L6
+  49:Src/main.c    ****     {
+  50:Src/main.c    ****       hal_uart_printf("[Calib] object weight: %d(g) | ref value: %ld\n", OBJECT_WEIGHT, data);
+ 133              		.loc 1 50 7 is_stmt 1 view .LVU23
+ 134 0048 BC21     		movs	r1, #188
+ 135 004a 0448     		ldr	r0, .L9+8
+ 136              	.LVL12:
+ 137              		.loc 1 50 7 is_stmt 0 view .LVU24
+ 138 004c FFF7FEFF 		bl	hal_uart_printf
+ 139              	.LVL13:
+ 140              		.loc 1 50 7 view .LVU25
+ 141 0050 ECE7     		b	.L6
+ 142              	.L10:
+ 143 0052 00BF     		.align	2
+ 144              	.L9:
+ 145 0054 00000000 		.word	htim2
+ 146 0058 00100140 		.word	1073811456
+ 147 005c 00000000 		.word	.LC2
+ 148              		.cfi_endproc
+ 149              	.LFE69:
+ 151              		.section	.text.Error_Handler,"ax",%progbits
+ 152              		.align	1
+ 153              		.global	Error_Handler
+ 154              		.syntax unified
+ 155              		.thumb
+ 156              		.thumb_func
+ 158              	Error_Handler:
+ 159              	.LFB70:
+  51:Src/main.c    ****     }
+  52:Src/main.c    ****   }
+  53:Src/main.c    **** }
+  54:Src/main.c    **** 
+  55:Src/main.c    **** void Error_Handler(void)
+  56:Src/main.c    **** {
+ 160              		.loc 1 56 1 is_stmt 1 view -0
+ 161              		.cfi_startproc
+ 162              		@ Volatile: function does not return.
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+  57:Src/main.c    ****   __disable_irq();
+ 166              		.loc 1 57 3 view .LVU27
+ 167              	.LBB4:
+ 168              	.LBI4:
+ 169              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+   1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
+   2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
+   3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 5
+
+
+   4:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @version  V5.0.4
+   5:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @date     09. April 2018
+   6:Drivers/CMSIS/Include/cmsis_gcc.h ****  ******************************************************************************/
+   7:Drivers/CMSIS/Include/cmsis_gcc.h **** /*
+   8:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Copyright (c) 2009-2018 Arm Limited. All rights reserved.
+   9:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  10:Drivers/CMSIS/Include/cmsis_gcc.h ****  * SPDX-License-Identifier: Apache-2.0
+  11:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  12:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Licensed under the Apache License, Version 2.0 (the License); you may
+  13:Drivers/CMSIS/Include/cmsis_gcc.h ****  * not use this file except in compliance with the License.
+  14:Drivers/CMSIS/Include/cmsis_gcc.h ****  * You may obtain a copy of the License at
+  15:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  16:Drivers/CMSIS/Include/cmsis_gcc.h ****  * www.apache.org/licenses/LICENSE-2.0
+  17:Drivers/CMSIS/Include/cmsis_gcc.h ****  *
+  18:Drivers/CMSIS/Include/cmsis_gcc.h ****  * Unless required by applicable law or agreed to in writing, software
+  19:Drivers/CMSIS/Include/cmsis_gcc.h ****  * distributed under the License is distributed on an AS IS BASIS, WITHOUT
+  20:Drivers/CMSIS/Include/cmsis_gcc.h ****  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  21:Drivers/CMSIS/Include/cmsis_gcc.h ****  * See the License for the specific language governing permissions and
+  22:Drivers/CMSIS/Include/cmsis_gcc.h ****  * limitations under the License.
+  23:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+  24:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  25:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __CMSIS_GCC_H
+  26:Drivers/CMSIS/Include/cmsis_gcc.h **** #define __CMSIS_GCC_H
+  27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
+  29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+  30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
+  31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
+  32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
+  33:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  34:Drivers/CMSIS/Include/cmsis_gcc.h **** /* Fallback for __has_builtin */
+  35:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef __has_builtin
+  36:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __has_builtin(x) (0)
+  37:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  38:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+  39:Drivers/CMSIS/Include/cmsis_gcc.h **** /* CMSIS compiler specific defines */
+  40:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ASM
+  41:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ASM                                  __asm
+  42:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  43:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __INLINE
+  44:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __INLINE                               inline
+  45:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  46:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_INLINE
+  47:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
+  48:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  49:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
+  50:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
+  51:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
+  52:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
+  53:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __NO_RETURN                            __attribute__((__noreturn__))
+  54:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  55:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __USED
+  56:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __USED                                 __attribute__((used))
+  57:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  58:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __WEAK
+  59:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __WEAK                                 __attribute__((weak))
+  60:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 6
+
+
+  61:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED
+  62:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED                               __attribute__((packed, aligned(1)))
+  63:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  64:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_STRUCT
+  65:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_STRUCT                        struct __attribute__((packed, aligned(1)))
+  66:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  67:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __PACKED_UNION
+  68:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __PACKED_UNION                         union __attribute__((packed, aligned(1)))
+  69:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  70:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32        /* deprecated */
+  71:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  72:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  73:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  74:Drivers/CMSIS/Include/cmsis_gcc.h ****   struct __attribute__((packed)) T_UINT32 { uint32_t v; };
+  75:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  76:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32(x)                  (((struct T_UINT32 *)(x))->v)
+  77:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  78:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_WRITE
+  79:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  80:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  81:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  82:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_WRITE { uint16_t v; };
+  83:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
+  85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+  87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  90:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT16_READ { uint16_t v; };
+  91:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+  92:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_READ(addr)          (((const struct T_UINT16_READ *)(const void *)(add
+  93:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+  94:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_WRITE
+  95:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+  96:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+  97:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+  98:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_WRITE { uint32_t v; };
+  99:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 100:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_WRITE(addr, val)    (void)((((struct T_UINT32_WRITE *)(void *)(addr))-
+ 101:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 102:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT32_READ
+ 103:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
+ 104:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
+ 105:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
+ 106:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
+ 107:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
+ 108:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
+ 109:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 110:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __ALIGNED
+ 111:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __ALIGNED(x)                           __attribute__((aligned(x)))
+ 112:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 113:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __RESTRICT
+ 114:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __RESTRICT                             __restrict
+ 115:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
+ 116:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 117:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 7
+
+
+ 118:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ###########################  Core Function Access  ########################### */
+ 119:Drivers/CMSIS/Include/cmsis_gcc.h **** /** \ingroup  CMSIS_Core_FunctionInterface
+ 120:Drivers/CMSIS/Include/cmsis_gcc.h ****     \defgroup CMSIS_Core_RegAccFunctions CMSIS Core Register Access Functions
+ 121:Drivers/CMSIS/Include/cmsis_gcc.h ****   @{
+ 122:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 123:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 124:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 125:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Enable IRQ Interrupts
+ 126:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Enables IRQ interrupts by clearing the I-bit in the CPSR.
+ 127:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 128:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 129:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __enable_irq(void)
+ 130:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 131:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsie i" : : : "memory");
+ 132:Drivers/CMSIS/Include/cmsis_gcc.h **** }
+ 133:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 134:Drivers/CMSIS/Include/cmsis_gcc.h **** 
+ 135:Drivers/CMSIS/Include/cmsis_gcc.h **** /**
+ 136:Drivers/CMSIS/Include/cmsis_gcc.h ****   \brief   Disable IRQ Interrupts
+ 137:Drivers/CMSIS/Include/cmsis_gcc.h ****   \details Disables IRQ interrupts by setting the I-bit in the CPSR.
+ 138:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
+ 139:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
+ 140:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
+ 170              		.loc 2 140 27 view .LVU28
+ 171              	.LBB5:
+ 141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ 142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
+ 172              		.loc 2 142 3 view .LVU29
+ 173              		.syntax unified
+ 174              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 175 0000 72B6     		cpsid i
+ 176              	@ 0 "" 2
+ 177              		.thumb
+ 178              		.syntax unified
+ 179              	.L12:
+ 180              	.LBE5:
+ 181              	.LBE4:
+  58:Src/main.c    ****   while (1)
+ 182              		.loc 1 58 3 view .LVU30
+  59:Src/main.c    ****   {
+  60:Src/main.c    ****   }
+ 183              		.loc 1 60 3 view .LVU31
+  58:Src/main.c    ****   while (1)
+ 184              		.loc 1 58 9 view .LVU32
+ 185 0002 FEE7     		b	.L12
+ 186              		.cfi_endproc
+ 187              	.LFE70:
+ 189              		.section	.rodata
+ 190              		.align	2
+ 191              		.set	.LANCHOR0,. + 0
+ 192              	.LC1:
+ 193 0000 00000000 		.word	hal_gpio_hx711_write_sck
+ 194 0004 00000000 		.word	hal_gpio_hx711_read_dat
+ 195 0008 00000000 		.word	hal_tim_busy_wait_us
+ 196              		.text
+ 197              	.Letext0:
+ 198              		.file 3 "C:/msys64/mingw64/arm-none-eabi/include/machine/_default_types.h"
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 8
+
+
+ 199              		.file 4 "C:/msys64/mingw64/arm-none-eabi/include/sys/_stdint.h"
+ 200              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103x6.h"
+ 201              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h"
+ 202              		.file 7 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h"
+ 203              		.file 8 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h"
+ 204              		.file 9 "../../../inc/hx711_hw.h"
+ 205              		.file 10 "../../../inc/hx711.h"
+ 206              		.file 11 "Inc/hal_tim.h"
+ 207              		.file 12 "Inc/hal_usart.h"
+ 208              		.file 13 "Inc/hal_gpio.h"
+ 209              		.file 14 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 210              		.file 15 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h"
+ 211              		.file 16 "Inc/syscfg.h"
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:19     .text.hx711_com_init:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:24     .text.hx711_com_init:00000000 hx711_com_init
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:56     .text.hx711_com_init:0000001c $d
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:61     .rodata.main.str1.4:00000000 $d
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:65     .text.main:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:71     .text.main:00000000 main
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:145    .text.main:00000054 $d
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:152    .text.Error_Handler:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:158    .text.Error_Handler:00000000 Error_Handler
+C:\Users\binhp\AppData\Local\Temp\cc0Ulelh.s:190    .rodata:00000000 $d
+
+UNDEFINED SYMBOLS
+hx711_set_hw_ops
+HAL_Init
+SystemClock_Config
+MX_GPIO_Init
+MX_TIM2_Init
+HAL_TIM_Base_Start
+MX_USART1_UART_Init
+hx711_init
+HAL_GPIO_TogglePin
+HAL_Delay
+hx711_get_data_raw
+hal_uart_printf
+htim2
+hal_gpio_hx711_write_sck
+hal_gpio_hx711_read_dat
+hal_tim_busy_wait_us

@@ -1,0 +1,414 @@
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"hal_utils.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "Src/hal_utils.c"
+  18              		.global	__aeabi_fcmplt
+  19              		.global	__aeabi_fdiv
+  20              		.global	__aeabi_fadd
+  21              		.global	__aeabi_f2iz
+  22              		.global	__aeabi_i2f
+  23              		.global	__aeabi_fsub
+  24              		.global	__aeabi_fmul
+  25              		.section	.text.hal_utils_float_to_str,"ax",%progbits
+  26              		.align	1
+  27              		.global	hal_utils_float_to_str
+  28              		.syntax unified
+  29              		.thumb
+  30              		.thumb_func
+  32              	hal_utils_float_to_str:
+  33              	.LVL0:
+  34              	.LFB0:
+   1:Src/hal_utils.c **** #include "hal_utils.h"
+   2:Src/hal_utils.c **** 
+   3:Src/hal_utils.c **** void hal_utils_float_to_str(float value, char *buffer, int decimal_places)
+   4:Src/hal_utils.c **** {
+  35              		.loc 1 4 1 view -0
+  36              		.cfi_startproc
+  37              		@ args = 0, pretend = 0, frame = 0
+  38              		@ frame_needed = 0, uses_anonymous_args = 0
+  39              		.loc 1 4 1 is_stmt 0 view .LVU1
+  40 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  41              	.LCFI0:
+  42              		.cfi_def_cfa_offset 32
+  43              		.cfi_offset 3, -32
+  44              		.cfi_offset 4, -28
+  45              		.cfi_offset 5, -24
+  46              		.cfi_offset 6, -20
+  47              		.cfi_offset 7, -16
+  48              		.cfi_offset 8, -12
+  49              		.cfi_offset 9, -8
+  50              		.cfi_offset 14, -4
+  51 0004 0646     		mov	r6, r0
+  52 0006 0C46     		mov	r4, r1
+   5:Src/hal_utils.c ****     if (decimal_places < 0)
+  53              		.loc 1 5 5 is_stmt 1 view .LVU2
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 2
+
+
+  54              		.loc 1 5 8 is_stmt 0 view .LVU3
+  55 0008 171E     		subs	r7, r2, #0
+  56 000a 08DB     		blt	.L16
+  57              	.L2:
+  58              	.LVL1:
+   6:Src/hal_utils.c ****         decimal_places = 0;
+   7:Src/hal_utils.c **** 
+   8:Src/hal_utils.c ****     // Handle negative values
+   9:Src/hal_utils.c ****     int is_negative = (value < 0);
+  59              		.loc 1 9 5 is_stmt 1 view .LVU4
+  10:Src/hal_utils.c ****     if (is_negative)
+  60              		.loc 1 10 5 view .LVU5
+  61              		.loc 1 10 8 is_stmt 0 view .LVU6
+  62 000c 0021     		movs	r1, #0
+  63              	.LVL2:
+  64              		.loc 1 10 8 view .LVU7
+  65 000e 3046     		mov	r0, r6
+  66              	.LVL3:
+  67              		.loc 1 10 8 view .LVU8
+  68 0010 FFF7FEFF 		bl	__aeabi_fcmplt
+  69              	.LVL4:
+  70              		.loc 1 10 8 view .LVU9
+  71 0014 28B9     		cbnz	r0, .L17
+  72              	.LVL5:
+  73              	.L3:
+  11:Src/hal_utils.c ****     {
+  12:Src/hal_utils.c ****         value = -value;
+  13:Src/hal_utils.c ****         *buffer++ = '-'; // Add '-' sign and move buffer pointer
+  14:Src/hal_utils.c ****     }
+  15:Src/hal_utils.c **** 
+  16:Src/hal_utils.c ****     // Apply rounding correction to prevent floating-point drift
+  17:Src/hal_utils.c ****     float rounding_offset = 0.5;
+  74              		.loc 1 17 5 is_stmt 1 view .LVU10
+  18:Src/hal_utils.c ****     for (int i = 0; i < decimal_places; i++)
+  75              		.loc 1 18 5 view .LVU11
+  76              	.LBB2:
+  77              		.loc 1 18 10 view .LVU12
+  78              		.loc 1 18 14 is_stmt 0 view .LVU13
+  79 0016 0025     		movs	r5, #0
+  80              	.LBE2:
+  17:Src/hal_utils.c ****     for (int i = 0; i < decimal_places; i++)
+  81              		.loc 1 17 11 view .LVU14
+  82 0018 4FF07C50 		mov	r0, #1056964608
+  83              	.LBB3:
+  84              		.loc 1 18 5 view .LVU15
+  85 001c 0BE0     		b	.L5
+  86              	.LVL6:
+  87              	.L16:
+  88              		.loc 1 18 5 view .LVU16
+  89              	.LBE3:
+   6:Src/hal_utils.c **** 
+  90              		.loc 1 6 24 view .LVU17
+  91 001e 0027     		movs	r7, #0
+  92 0020 F4E7     		b	.L2
+  93              	.LVL7:
+  94              	.L17:
+  12:Src/hal_utils.c ****         *buffer++ = '-'; // Add '-' sign and move buffer pointer
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 3
+
+
+  95              		.loc 1 12 9 is_stmt 1 view .LVU18
+  12:Src/hal_utils.c ****         *buffer++ = '-'; // Add '-' sign and move buffer pointer
+  96              		.loc 1 12 15 is_stmt 0 view .LVU19
+  97 0022 06F10046 		add	r6, r6, #-2147483648
+  98              	.LVL8:
+  13:Src/hal_utils.c ****     }
+  99              		.loc 1 13 9 is_stmt 1 view .LVU20
+  13:Src/hal_utils.c ****     }
+ 100              		.loc 1 13 19 is_stmt 0 view .LVU21
+ 101 0026 2D23     		movs	r3, #45
+ 102 0028 04F8013B 		strb	r3, [r4], #1
+ 103              	.LVL9:
+  13:Src/hal_utils.c ****     }
+ 104              		.loc 1 13 19 view .LVU22
+ 105 002c F3E7     		b	.L3
+ 106              	.LVL10:
+ 107              	.L6:
+ 108              	.LBB4:
+  19:Src/hal_utils.c ****     {
+  20:Src/hal_utils.c ****         rounding_offset /= 10.0f;
+ 109              		.loc 1 20 9 is_stmt 1 view .LVU23
+ 110              		.loc 1 20 25 is_stmt 0 view .LVU24
+ 111 002e 2B49     		ldr	r1, .L18
+ 112 0030 FFF7FEFF 		bl	__aeabi_fdiv
+ 113              	.LVL11:
+  18:Src/hal_utils.c ****     {
+ 114              		.loc 1 18 42 is_stmt 1 discriminator 3 view .LVU25
+ 115 0034 0135     		adds	r5, r5, #1
+ 116              	.LVL12:
+ 117              	.L5:
+  18:Src/hal_utils.c ****     {
+ 118              		.loc 1 18 23 discriminator 1 view .LVU26
+ 119 0036 AF42     		cmp	r7, r5
+ 120 0038 F9DC     		bgt	.L6
+ 121              	.LBE4:
+  21:Src/hal_utils.c ****     }
+  22:Src/hal_utils.c ****     value += rounding_offset; // This ensures correct rounding
+ 122              		.loc 1 22 5 view .LVU27
+ 123              		.loc 1 22 11 is_stmt 0 view .LVU28
+ 124 003a 0146     		mov	r1, r0
+ 125 003c 3046     		mov	r0, r6
+ 126              	.LVL13:
+ 127              		.loc 1 22 11 view .LVU29
+ 128 003e FFF7FEFF 		bl	__aeabi_fadd
+ 129              	.LVL14:
+ 130              		.loc 1 22 11 view .LVU30
+ 131 0042 0546     		mov	r5, r0
+ 132              	.LVL15:
+  23:Src/hal_utils.c **** 
+  24:Src/hal_utils.c ****     // Extract integer and decimal parts
+  25:Src/hal_utils.c ****     int integer_part = (int)value;
+ 133              		.loc 1 25 5 is_stmt 1 view .LVU31
+ 134              		.loc 1 25 9 is_stmt 0 view .LVU32
+ 135 0044 FFF7FEFF 		bl	__aeabi_f2iz
+ 136              	.LVL16:
+ 137              		.loc 1 25 9 view .LVU33
+ 138 0048 0646     		mov	r6, r0
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 4
+
+
+ 139              	.LVL17:
+  26:Src/hal_utils.c ****     float decimal_part = value - (float)integer_part;
+ 140              		.loc 1 26 5 is_stmt 1 view .LVU34
+ 141              		.loc 1 26 34 is_stmt 0 view .LVU35
+ 142 004a FFF7FEFF 		bl	__aeabi_i2f
+ 143              	.LVL18:
+ 144              		.loc 1 26 34 view .LVU36
+ 145 004e 0146     		mov	r1, r0
+ 146              		.loc 1 26 11 view .LVU37
+ 147 0050 2846     		mov	r0, r5
+ 148 0052 FFF7FEFF 		bl	__aeabi_fsub
+ 149              	.LVL19:
+  27:Src/hal_utils.c **** 
+  28:Src/hal_utils.c ****     // Convert integer part to string
+  29:Src/hal_utils.c ****     int pos = 0;
+ 150              		.loc 1 29 5 is_stmt 1 view .LVU38
+ 151              		.loc 1 29 9 is_stmt 0 view .LVU39
+ 152 0056 0025     		movs	r5, #0
+ 153              	.LVL20:
+ 154              	.L7:
+  30:Src/hal_utils.c ****     do
+ 155              		.loc 1 30 5 is_stmt 1 view .LVU40
+  31:Src/hal_utils.c ****     {
+  32:Src/hal_utils.c ****         buffer[pos++] = '0' + (integer_part % 10);
+ 156              		.loc 1 32 9 view .LVU41
+ 157              		.loc 1 32 45 is_stmt 0 view .LVU42
+ 158 0058 214A     		ldr	r2, .L18+4
+ 159 005a 82FB0632 		smull	r3, r2, r2, r6
+ 160 005e F317     		asrs	r3, r6, #31
+ 161 0060 C3EBA203 		rsb	r3, r3, r2, asr #2
+ 162 0064 1A46     		mov	r2, r3
+ 163 0066 03EB8303 		add	r3, r3, r3, lsl #2
+ 164 006a A6EB4303 		sub	r3, r6, r3, lsl #1
+ 165 006e 2946     		mov	r1, r5
+ 166              		.loc 1 32 19 view .LVU43
+ 167 0070 0135     		adds	r5, r5, #1
+ 168              	.LVL21:
+ 169              		.loc 1 32 29 view .LVU44
+ 170 0072 3033     		adds	r3, r3, #48
+ 171              		.loc 1 32 23 view .LVU45
+ 172 0074 6354     		strb	r3, [r4, r1]
+  33:Src/hal_utils.c ****         integer_part /= 10;
+ 173              		.loc 1 33 9 is_stmt 1 view .LVU46
+ 174 0076 3346     		mov	r3, r6
+ 175              		.loc 1 33 22 is_stmt 0 view .LVU47
+ 176 0078 1646     		mov	r6, r2
+ 177              	.LVL22:
+  34:Src/hal_utils.c ****     } while (integer_part > 0);
+ 178              		.loc 1 34 27 is_stmt 1 discriminator 1 view .LVU48
+ 179 007a 092B     		cmp	r3, #9
+ 180 007c ECDC     		bgt	.L7
+ 181              	.LBB5:
+  35:Src/hal_utils.c **** 
+  36:Src/hal_utils.c ****     // Reverse integer part
+  37:Src/hal_utils.c ****     for (int i = 0, j = pos - 1; i < j; i++, j--)
+ 182              		.loc 1 37 21 is_stmt 0 view .LVU49
+ 183 007e 0A46     		mov	r2, r1
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 5
+
+
+ 184              	.LVL23:
+ 185              		.loc 1 37 14 view .LVU50
+ 186 0080 0023     		movs	r3, #0
+ 187 0082 07E0     		b	.L8
+ 188              	.LVL24:
+ 189              	.L9:
+ 190              	.LBB6:
+  38:Src/hal_utils.c ****     {
+  39:Src/hal_utils.c ****         char temp = buffer[i];
+ 191              		.loc 1 39 9 is_stmt 1 view .LVU51
+ 192              		.loc 1 39 14 is_stmt 0 view .LVU52
+ 193 0084 E65C     		ldrb	r6, [r4, r3]	@ zero_extendqisi2
+ 194              	.LVL25:
+  40:Src/hal_utils.c ****         buffer[i] = buffer[j];
+ 195              		.loc 1 40 9 is_stmt 1 view .LVU53
+ 196              		.loc 1 40 27 is_stmt 0 view .LVU54
+ 197 0086 14F802C0 		ldrb	ip, [r4, r2]	@ zero_extendqisi2
+ 198              		.loc 1 40 19 view .LVU55
+ 199 008a 04F803C0 		strb	ip, [r4, r3]
+  41:Src/hal_utils.c ****         buffer[j] = temp;
+ 200              		.loc 1 41 9 is_stmt 1 view .LVU56
+ 201              		.loc 1 41 19 is_stmt 0 view .LVU57
+ 202 008e A654     		strb	r6, [r4, r2]
+ 203              	.LBE6:
+  37:Src/hal_utils.c ****     {
+ 204              		.loc 1 37 44 is_stmt 1 discriminator 3 view .LVU58
+  37:Src/hal_utils.c ****     {
+ 205              		.loc 1 37 42 is_stmt 0 discriminator 3 view .LVU59
+ 206 0090 0133     		adds	r3, r3, #1
+ 207              	.LVL26:
+  37:Src/hal_utils.c ****     {
+ 208              		.loc 1 37 47 discriminator 3 view .LVU60
+ 209 0092 013A     		subs	r2, r2, #1
+ 210              	.LVL27:
+ 211              	.L8:
+  37:Src/hal_utils.c ****     {
+ 212              		.loc 1 37 36 is_stmt 1 discriminator 1 view .LVU61
+ 213 0094 9342     		cmp	r3, r2
+ 214 0096 F5DB     		blt	.L9
+ 215              	.LBE5:
+  42:Src/hal_utils.c ****     }
+  43:Src/hal_utils.c **** 
+  44:Src/hal_utils.c ****     // Add decimal point
+  45:Src/hal_utils.c ****     if (decimal_places > 0)
+ 216              		.loc 1 45 5 view .LVU62
+ 217              		.loc 1 45 8 is_stmt 0 view .LVU63
+ 218 0098 002F     		cmp	r7, #0
+ 219 009a 02DD     		ble	.L10
+  46:Src/hal_utils.c ****     {
+  47:Src/hal_utils.c ****         buffer[pos++] = '.';
+ 220              		.loc 1 47 9 is_stmt 1 view .LVU64
+ 221              	.LVL28:
+ 222              		.loc 1 47 23 is_stmt 0 view .LVU65
+ 223 009c 2E23     		movs	r3, #46
+ 224              	.LVL29:
+ 225              		.loc 1 47 23 view .LVU66
+ 226 009e 6355     		strb	r3, [r4, r5]
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 6
+
+
+ 227              		.loc 1 47 19 view .LVU67
+ 228 00a0 8D1C     		adds	r5, r1, #2
+ 229              	.LVL30:
+ 230              	.L10:
+ 231              		.loc 1 47 19 view .LVU68
+ 232 00a2 4FF00008 		mov	r8, #0
+ 233 00a6 13E0     		b	.L11
+ 234              	.LVL31:
+ 235              	.L12:
+ 236              	.LBB7:
+ 237              	.LBB8:
+  48:Src/hal_utils.c ****     }
+  49:Src/hal_utils.c **** 
+  50:Src/hal_utils.c ****     // Convert decimal part
+  51:Src/hal_utils.c ****     for (int i = 0; i < decimal_places; i++)
+  52:Src/hal_utils.c ****     {
+  53:Src/hal_utils.c ****         decimal_part *= 10;
+ 238              		.loc 1 53 9 is_stmt 1 view .LVU69
+ 239              		.loc 1 53 22 is_stmt 0 view .LVU70
+ 240 00a8 0C49     		ldr	r1, .L18
+ 241 00aa FFF7FEFF 		bl	__aeabi_fmul
+ 242              	.LVL32:
+ 243 00ae 0646     		mov	r6, r0
+ 244              	.LVL33:
+  54:Src/hal_utils.c ****         int digit = (int)decimal_part;
+ 245              		.loc 1 54 9 is_stmt 1 view .LVU71
+ 246              		.loc 1 54 13 is_stmt 0 view .LVU72
+ 247 00b0 FFF7FEFF 		bl	__aeabi_f2iz
+ 248              	.LVL34:
+  55:Src/hal_utils.c ****         buffer[pos++] = '0' + digit;    
+ 249              		.loc 1 55 9 is_stmt 1 view .LVU73
+ 250              		.loc 1 55 19 is_stmt 0 view .LVU74
+ 251 00b4 05F10109 		add	r9, r5, #1
+ 252              	.LVL35:
+ 253              		.loc 1 55 29 view .LVU75
+ 254 00b8 00F13003 		add	r3, r0, #48
+ 255              		.loc 1 55 23 view .LVU76
+ 256 00bc 6355     		strb	r3, [r4, r5]
+  56:Src/hal_utils.c ****         decimal_part -= digit;
+ 257              		.loc 1 56 9 is_stmt 1 view .LVU77
+ 258              		.loc 1 56 22 is_stmt 0 view .LVU78
+ 259 00be FFF7FEFF 		bl	__aeabi_i2f
+ 260              	.LVL36:
+ 261              		.loc 1 56 22 view .LVU79
+ 262 00c2 0146     		mov	r1, r0
+ 263 00c4 3046     		mov	r0, r6
+ 264 00c6 FFF7FEFF 		bl	__aeabi_fsub
+ 265              	.LVL37:
+ 266              	.LBE8:
+  51:Src/hal_utils.c ****     {
+ 267              		.loc 1 51 42 is_stmt 1 discriminator 3 view .LVU80
+ 268 00ca 08F10108 		add	r8, r8, #1
+ 269              	.LVL38:
+ 270              	.LBB9:
+  55:Src/hal_utils.c ****         buffer[pos++] = '0' + digit;    
+ 271              		.loc 1 55 19 is_stmt 0 view .LVU81
+ 272 00ce 4D46     		mov	r5, r9
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 7
+
+
+ 273              	.LVL39:
+ 274              	.L11:
+  55:Src/hal_utils.c ****         buffer[pos++] = '0' + digit;    
+ 275              		.loc 1 55 19 view .LVU82
+ 276              	.LBE9:
+  51:Src/hal_utils.c ****     {
+ 277              		.loc 1 51 23 is_stmt 1 discriminator 1 view .LVU83
+ 278 00d0 4745     		cmp	r7, r8
+ 279 00d2 E9DC     		bgt	.L12
+  51:Src/hal_utils.c ****     {
+ 280              		.loc 1 51 23 is_stmt 0 discriminator 1 view .LVU84
+ 281              	.LBE7:
+  57:Src/hal_utils.c ****     }
+  58:Src/hal_utils.c **** 
+  59:Src/hal_utils.c ****     // Null-terminate string
+  60:Src/hal_utils.c ****     buffer[pos] = '\0';
+ 282              		.loc 1 60 5 is_stmt 1 view .LVU85
+ 283              		.loc 1 60 17 is_stmt 0 view .LVU86
+ 284 00d4 0023     		movs	r3, #0
+ 285 00d6 6355     		strb	r3, [r4, r5]
+  61:Src/hal_utils.c **** }...
+ 286              		.loc 1 61 1 view .LVU87
+ 287 00d8 BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 288              	.LVL40:
+ 289              	.L19:
+ 290              		.loc 1 61 1 view .LVU88
+ 291              		.align	2
+ 292              	.L18:
+ 293 00dc 00002041 		.word	1092616192
+ 294 00e0 67666666 		.word	1717986919
+ 295              		.cfi_endproc
+ 296              	.LFE0:
+ 298              		.text
+ 299              	.Letext0:
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 hal_utils.c
+C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s:26     .text.hal_utils_float_to_str:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s:32     .text.hal_utils_float_to_str:00000000 hal_utils_float_to_str
+C:\Users\binhp\AppData\Local\Temp\ccpUW0Wj.s:293    .text.hal_utils_float_to_str:000000dc $d
+
+UNDEFINED SYMBOLS
+__aeabi_fcmplt
+__aeabi_fdiv
+__aeabi_fadd
+__aeabi_f2iz
+__aeabi_i2f
+__aeabi_fsub
+__aeabi_fmul

@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "main.h": "c",
+        "hal_usart.h": "c",
+        "hal_gpio.h": "c",
+        "stdint.h": "c",
+        "stm32f1xx_hal.h": "c",
+        "hal_tim.h": "c"
+    },
+    "cortex-debug.variableUseNaturalFormat": true
+}

@@ -1,0 +1,267 @@
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.arch armv7-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"hx711_hw.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "../../../src/hx711_hw.c"
+  18              		.section	.text.hx711_set_hw_ops,"ax",%progbits
+  19              		.align	1
+  20              		.global	hx711_set_hw_ops
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  25              	hx711_set_hw_ops:
+  26              	.LVL0:
+  27              	.LFB0:
+   1:../../../src/hx711_hw.c **** #include "hx711_hw.h"
+   2:../../../src/hx711_hw.c **** 
+   3:../../../src/hx711_hw.c **** static hx711_hw_ops_t hx711_hw_ops;
+   4:../../../src/hx711_hw.c **** 
+   5:../../../src/hx711_hw.c **** void hx711_set_hw_ops(hx711_hw_ops_t *ops)
+   6:../../../src/hx711_hw.c **** {
+  28              		.loc 1 6 1 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+   7:../../../src/hx711_hw.c ****     hx711_hw_ops = *ops;
+  33              		.loc 1 7 5 view .LVU1
+  34              		.loc 1 7 18 is_stmt 0 view .LVU2
+  35 0000 024B     		ldr	r3, .L2
+  36 0002 07C8     		ldm	r0, {r0, r1, r2}
+  37              	.LVL1:
+  38              		.loc 1 7 18 view .LVU3
+  39 0004 83E80700 		stm	r3, {r0, r1, r2}
+   8:../../../src/hx711_hw.c **** }
+  40              		.loc 1 8 1 view .LVU4
+  41 0008 7047     		bx	lr
+  42              	.L3:
+  43 000a 00BF     		.align	2
+  44              	.L2:
+  45 000c 00000000 		.word	hx711_hw_ops
+  46              		.cfi_endproc
+  47              	.LFE0:
+  49              		.section	.text.hx711_write_clk,"ax",%progbits
+  50              		.align	1
+  51              		.global	hx711_write_clk
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s 			page 2
+
+
+  52              		.syntax unified
+  53              		.thumb
+  54              		.thumb_func
+  56              	hx711_write_clk:
+  57              	.LVL2:
+  58              	.LFB1:
+   9:../../../src/hx711_hw.c **** 
+  10:../../../src/hx711_hw.c **** int hx711_write_clk(int val)
+  11:../../../src/hx711_hw.c **** {
+  59              		.loc 1 11 1 is_stmt 1 view -0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 0, uses_anonymous_args = 0
+  63              		.loc 1 11 1 is_stmt 0 view .LVU6
+  64 0000 08B5     		push	{r3, lr}
+  65              	.LCFI0:
+  66              		.cfi_def_cfa_offset 8
+  67              		.cfi_offset 3, -8
+  68              		.cfi_offset 14, -4
+  12:../../../src/hx711_hw.c ****     if (hx711_hw_ops.write_sck)
+  69              		.loc 1 12 5 is_stmt 1 view .LVU7
+  70              		.loc 1 12 21 is_stmt 0 view .LVU8
+  71 0002 044B     		ldr	r3, .L8
+  72 0004 1B68     		ldr	r3, [r3]
+  73              		.loc 1 12 8 view .LVU9
+  74 0006 13B1     		cbz	r3, .L6
+  13:../../../src/hx711_hw.c ****     {
+  14:../../../src/hx711_hw.c ****         hx711_hw_ops.write_sck(val);
+  75              		.loc 1 14 9 is_stmt 1 view .LVU10
+  76 0008 9847     		blx	r3
+  77              	.LVL3:
+  15:../../../src/hx711_hw.c ****         return 0;
+  78              		.loc 1 15 9 view .LVU11
+  79              		.loc 1 15 16 is_stmt 0 view .LVU12
+  80 000a 0020     		movs	r0, #0
+  81              	.L4:
+  16:../../../src/hx711_hw.c ****     }
+  17:../../../src/hx711_hw.c ****     return -1;
+  18:../../../src/hx711_hw.c **** }
+  82              		.loc 1 18 1 view .LVU13
+  83 000c 08BD     		pop	{r3, pc}
+  84              	.LVL4:
+  85              	.L6:
+  17:../../../src/hx711_hw.c **** }
+  86              		.loc 1 17 12 view .LVU14
+  87 000e 4FF0FF30 		mov	r0, #-1
+  88              	.LVL5:
+  17:../../../src/hx711_hw.c **** }
+  89              		.loc 1 17 12 view .LVU15
+  90 0012 FBE7     		b	.L4
+  91              	.L9:
+  92              		.align	2
+  93              	.L8:
+  94 0014 00000000 		.word	hx711_hw_ops
+  95              		.cfi_endproc
+  96              	.LFE1:
+  98              		.section	.text.hx711_read_dat,"ax",%progbits
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s 			page 3
+
+
+  99              		.align	1
+ 100              		.global	hx711_read_dat
+ 101              		.syntax unified
+ 102              		.thumb
+ 103              		.thumb_func
+ 105              	hx711_read_dat:
+ 106              	.LFB2:
+  19:../../../src/hx711_hw.c **** 
+  20:../../../src/hx711_hw.c **** int hx711_read_dat(void)
+  21:../../../src/hx711_hw.c **** {
+ 107              		.loc 1 21 1 is_stmt 1 view -0
+ 108              		.cfi_startproc
+ 109              		@ args = 0, pretend = 0, frame = 0
+ 110              		@ frame_needed = 0, uses_anonymous_args = 0
+ 111 0000 08B5     		push	{r3, lr}
+ 112              	.LCFI1:
+ 113              		.cfi_def_cfa_offset 8
+ 114              		.cfi_offset 3, -8
+ 115              		.cfi_offset 14, -4
+  22:../../../src/hx711_hw.c ****     if (hx711_hw_ops.read_dat)
+ 116              		.loc 1 22 5 view .LVU17
+ 117              		.loc 1 22 21 is_stmt 0 view .LVU18
+ 118 0002 044B     		ldr	r3, .L14
+ 119 0004 5B68     		ldr	r3, [r3, #4]
+ 120              		.loc 1 22 8 view .LVU19
+ 121 0006 0BB1     		cbz	r3, .L12
+  23:../../../src/hx711_hw.c ****     {
+  24:../../../src/hx711_hw.c ****         return hx711_hw_ops.read_dat();
+ 122              		.loc 1 24 9 is_stmt 1 view .LVU20
+ 123              		.loc 1 24 16 is_stmt 0 view .LVU21
+ 124 0008 9847     		blx	r3
+ 125              	.LVL6:
+ 126              	.L10:
+  25:../../../src/hx711_hw.c ****     }
+  26:../../../src/hx711_hw.c ****     return -1;
+  27:../../../src/hx711_hw.c **** }
+ 127              		.loc 1 27 1 view .LVU22
+ 128 000a 08BD     		pop	{r3, pc}
+ 129              	.L12:
+  26:../../../src/hx711_hw.c **** }
+ 130              		.loc 1 26 12 view .LVU23
+ 131 000c 4FF0FF30 		mov	r0, #-1
+ 132 0010 FBE7     		b	.L10
+ 133              	.L15:
+ 134 0012 00BF     		.align	2
+ 135              	.L14:
+ 136 0014 00000000 		.word	hx711_hw_ops
+ 137              		.cfi_endproc
+ 138              	.LFE2:
+ 140              		.section	.text.hx711_us_delay,"ax",%progbits
+ 141              		.align	1
+ 142              		.global	hx711_us_delay
+ 143              		.syntax unified
+ 144              		.thumb
+ 145              		.thumb_func
+ 147              	hx711_us_delay:
+ 148              	.LVL7:
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s 			page 4
+
+
+ 149              	.LFB3:
+  28:../../../src/hx711_hw.c **** 
+  29:../../../src/hx711_hw.c **** int hx711_us_delay(int us)
+  30:../../../src/hx711_hw.c **** {
+ 150              		.loc 1 30 1 is_stmt 1 view -0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 0, uses_anonymous_args = 0
+ 154              		.loc 1 30 1 is_stmt 0 view .LVU25
+ 155 0000 08B5     		push	{r3, lr}
+ 156              	.LCFI2:
+ 157              		.cfi_def_cfa_offset 8
+ 158              		.cfi_offset 3, -8
+ 159              		.cfi_offset 14, -4
+  31:../../../src/hx711_hw.c ****     if (hx711_hw_ops.delay_us)
+ 160              		.loc 1 31 5 is_stmt 1 view .LVU26
+ 161              		.loc 1 31 21 is_stmt 0 view .LVU27
+ 162 0002 044B     		ldr	r3, .L20
+ 163 0004 9B68     		ldr	r3, [r3, #8]
+ 164              		.loc 1 31 8 view .LVU28
+ 165 0006 13B1     		cbz	r3, .L18
+  32:../../../src/hx711_hw.c ****     {
+  33:../../../src/hx711_hw.c ****         hx711_hw_ops.delay_us(us);
+ 166              		.loc 1 33 9 is_stmt 1 view .LVU29
+ 167 0008 9847     		blx	r3
+ 168              	.LVL8:
+  34:../../../src/hx711_hw.c ****         return 0;
+ 169              		.loc 1 34 9 view .LVU30
+ 170              		.loc 1 34 16 is_stmt 0 view .LVU31
+ 171 000a 0020     		movs	r0, #0
+ 172              	.L16:
+  35:../../../src/hx711_hw.c ****     }
+  36:../../../src/hx711_hw.c ****     return -1;
+  37:../../../src/hx711_hw.c **** }...
+ 173              		.loc 1 37 1 view .LVU32
+ 174 000c 08BD     		pop	{r3, pc}
+ 175              	.LVL9:
+ 176              	.L18:
+  36:../../../src/hx711_hw.c ****     return -1;
+ 177              		.loc 1 36 12 view .LVU33
+ 178 000e 4FF0FF30 		mov	r0, #-1
+ 179              	.LVL10:
+  36:../../../src/hx711_hw.c ****     return -1;
+ 180              		.loc 1 36 12 view .LVU34
+ 181 0012 FBE7     		b	.L16
+ 182              	.L21:
+ 183              		.align	2
+ 184              	.L20:
+ 185 0014 00000000 		.word	hx711_hw_ops
+ 186              		.cfi_endproc
+ 187              	.LFE3:
+ 189              		.section	.bss.hx711_hw_ops,"aw",%nobits
+ 190              		.align	2
+ 193              	hx711_hw_ops:
+ 194 0000 00000000 		.space	12
+ 194      00000000 
+ 194      00000000 
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s 			page 5
+
+
+ 195              		.text
+ 196              	.Letext0:
+ 197              		.file 2 "../../../inc/hx711_hw.h"
+ARM GAS  C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 hx711_hw.c
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:19     .text.hx711_set_hw_ops:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:25     .text.hx711_set_hw_ops:00000000 hx711_set_hw_ops
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:45     .text.hx711_set_hw_ops:0000000c $d
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:193    .bss.hx711_hw_ops:00000000 hx711_hw_ops
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:50     .text.hx711_write_clk:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:56     .text.hx711_write_clk:00000000 hx711_write_clk
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:94     .text.hx711_write_clk:00000014 $d
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:99     .text.hx711_read_dat:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:105    .text.hx711_read_dat:00000000 hx711_read_dat
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:136    .text.hx711_read_dat:00000014 $d
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:141    .text.hx711_us_delay:00000000 $t
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:147    .text.hx711_us_delay:00000000 hx711_us_delay
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:185    .text.hx711_us_delay:00000014 $d
+C:\Users\binhp\AppData\Local\Temp\ccPfPJJb.s:190    .bss.hx711_hw_ops:00000000 $d
+
+NO UNDEFINED SYMBOLS
